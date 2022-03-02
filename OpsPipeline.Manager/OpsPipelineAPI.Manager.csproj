@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <UserSecretsId>0ce876de-252c-40d1-aae1-55c57e83828b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Handlers\CreateProductCommandHandler.cs" />
+    <Compile Remove="Handlers\ProductDeleteCommandHandler.cs" />
+    <Compile Remove="Handlers\ProductListQueryHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpsPipeline.Repository\OpsPipelineAPI.Repository.csproj" />
+    <ProjectReference Include="..\OpsPipeline.Utilities\OpsPipelineAPI.Utilities.csproj" />
+    <ProjectReference Include="..\OpsPipelineAPI.Entities\OpsPipelineAPI.Entities.csproj" />
+  </ItemGroup>
+
+  
+
+</Project>
