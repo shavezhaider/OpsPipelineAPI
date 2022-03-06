@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 using static OpsPipelineAPI.Utilities.Enums;
 
 namespace OpsPipelineAPI.Manager.Implementation
@@ -96,12 +97,12 @@ namespace OpsPipelineAPI.Manager.Implementation
             var user = await _userManager.FindByNameAsync(appUserRequest.UserName);
             if (user != null)
             {
-                
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-                var resultSetting = _setting.GetSettingByName(DataConstants.DOMAIN_URL);
 
-                var callbackUrl = resultSetting.Value + "resetpassword/" + token + "/"+user.Email;
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //token = HttpUtility.UrlDecode(token);
+                var resultSetting = _setting.GetSettingByName(DataConstants.DOMAIN_URL);
+                token = HttpUtility.UrlEncode(token);
+                var callbackUrl = resultSetting.Value + "resetpassword/" + token + "/" + user.Email;
                 EmailModalRequest emailModal = new EmailModalRequest();
                 string msgurl = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
                 emailModal.Body = msgurl;
@@ -152,23 +153,24 @@ namespace OpsPipelineAPI.Manager.Implementation
         public async Task<ProcessingStatusEntity> ResetPassword(ResetPasswordRequest resetPassword)
         {
             var user = await _userManager.FindByEmailAsync(resetPassword.Email);
-            if (user == null)
-            { }
-            var token = resetPassword.Token;
-           // resetPassword.Token = WebEncoders.Base64UrlDecode(Encoding.UTF8.GetBytes(token));
-            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
-            if (!resetPassResult.Succeeded)
+            if (user != null)
             {
-                var error = ConvertIdentityErrorToErrorList(resetPassResult.Errors);
+               // resetPassword.Token = HttpUtility.UrlDecode(resetPassword.Token.Trim());
+
+                var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
+                if (!resetPassResult.Succeeded)
+                {
+                    var error = ConvertIdentityErrorToErrorList(resetPassResult.Errors);
 
 
-                processingStatusEntity.Message = ConvertErrorListToString(error);
-                processingStatusEntity.StatusCode = (int)statusCode.Failure;
-            }
-            else
-            {
-                processingStatusEntity.Message = "";
-                processingStatusEntity.StatusCode = (int)statusCode.Success;
+                    processingStatusEntity.Message = ConvertErrorListToString(error);
+                    processingStatusEntity.StatusCode = (int)statusCode.Failure;
+                }
+                else
+                {
+                    processingStatusEntity.Message = "Password Reset Successfully, please login.";
+                    processingStatusEntity.StatusCode = (int)statusCode.Success;
+                }
             }
             return processingStatusEntity;
         }

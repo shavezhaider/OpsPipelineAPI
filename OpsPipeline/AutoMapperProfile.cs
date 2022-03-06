@@ -15,7 +15,7 @@ namespace OpsPipelineAPI
         public AutoMapperProfile()
         {
             
-            CreateMap<Product, ProductEntity>();
+            
             //CreateMap<IEnumerable<Product>, IEnumerable<ProductEntity>>();
             CreateMap<AppUserEntity, AppUser>();
             //CreateMap<UserForRegistrationDto, User>()

@@ -27,11 +27,7 @@ namespace OpsPipelineAPI.Repository.EDMX
        
         public DbSet<CountryMaster> CountryMaster { get; set; }
       
-        public DbSet<CityMaster> CityMaster { get; set; }
-        public DbSet<Product> product { get; set; }
-        public DbSet<SalesMaster> salesMasters { get; set; }
-        public DbSet<SaleTransaction> saleTransactions { get; set; }
-        public DbSet<SaleTax> saleTaxes { get; set; }
+        public DbSet<CityMaster> CityMaster { get; set; }       
         public DbSet<Setting> settings { get; set; }
 
 

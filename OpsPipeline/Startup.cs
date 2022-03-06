@@ -91,7 +91,7 @@ namespace OpsPipelineAPI
 
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddTransient<IProductManager, ProductManager>();
+            
             services.AddTransient<IUser, UserManagerRepo>();
             services.AddTransient<ISetting, SettingManager>();
 
