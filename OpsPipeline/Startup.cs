@@ -94,6 +94,9 @@ namespace OpsPipelineAPI
             
             services.AddTransient<IUser, UserManagerRepo>();
             services.AddTransient<ISetting, SettingManager>();
+            services.AddTransient<IOptionsSelect, OptionsManager>();
+            services.AddTransient<IReports, ReportsManager>();
+            
 
             services.AddScoped<JwtHandler>();
             services.AddDbContext<OpsPipelineDBContext>(options =>
