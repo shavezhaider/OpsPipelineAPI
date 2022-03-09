@@ -25,10 +25,6 @@
     <ProjectReference Include="..\OpsPipelineAPI.Entities\OpsPipelineAPI.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
   
 
 </Project>

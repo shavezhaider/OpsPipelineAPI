@@ -23,6 +23,14 @@ namespace OpsPipelineAPI.Utilities
             Customer
         }
 
+        public enum enumOptionType
+        {
+            entirePipeline = 1,
+            dealLocation = 2,
+            SalesStage = 3,
+            topDeal = 4
+        }
+
 
     }
 }
