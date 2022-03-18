@@ -17,28 +17,10 @@ namespace OpsPipelineAPI.Repository.EDMX
         {
 
         }
-        //public LicenseDBContext(DbContextOptions<LicenseDBContext> options)
-        //   : base(options)
-        //{
-        //}
-
        
-        public DbSet<ErrorLog> ErrorLog { get; set; }
-       
-        public DbSet<CountryMaster> CountryMaster { get; set; }
-      
-        public DbSet<CityMaster> CityMaster { get; set; }       
-        public DbSet<Setting> settings { get; set; }
-
-
-        // sp
-
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-          //  modelBuilder.Seed();
         }
 
     }

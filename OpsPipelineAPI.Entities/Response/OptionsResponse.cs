@@ -8,7 +8,7 @@ namespace OpsPipelineAPI.Entities.Response
     public class OptionsResponse
     {
         public int Id { get; set; }
-        public int Name { get; set; }
-        public ProcessingStatusEntity processingStatus { get; set; }
+        public string Name { get; set; }
+      
     }
 }

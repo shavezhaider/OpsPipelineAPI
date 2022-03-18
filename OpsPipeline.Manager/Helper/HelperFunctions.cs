@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.IO;
 
 using System.Text.RegularExpressions;
-using DorzerLicense.Data.Models;
 
 using System.Net.Mail;
 

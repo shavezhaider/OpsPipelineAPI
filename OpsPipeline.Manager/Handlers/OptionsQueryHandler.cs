@@ -17,9 +17,9 @@ namespace OpsPipelineAPI.Manager.Handlers
         {
             _optionsSelect = optionsSelect;
         }
-        public async Task<List<OptionsResponse>> Handle(OptionsQuery request, CancellationToken cancellationToken)
+        public Task<List<OptionsResponse>> Handle(OptionsQuery request, CancellationToken cancellationToken)
         {
-            return await _optionsSelect.GetOptionByTypeId(request.type);
+            return  _optionsSelect.GetOptionByTypeId(request.type);
 
         }
     }
