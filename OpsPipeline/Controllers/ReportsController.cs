@@ -25,8 +25,8 @@ namespace OpsPipelineAPI.Controllers
         [HttpPost("EntirePipelineReport")]
         public async Task<IActionResult> EntirePipelineReport(ReportsRequest reportsRequest)
         {
-            //var Query = new ReportsCommand(reportsRequest);
-            //var user = await CommandAsync(Query); t();
+            var Query = new ReportsCommand(reportsRequest);
+            var result = await CommandAsync(Query); ;
             return Ok();
 
         }

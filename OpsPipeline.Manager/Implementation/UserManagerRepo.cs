@@ -24,15 +24,15 @@ namespace OpsPipelineAPI.Manager.Implementation
         private readonly IMapper _mapper;
         ProcessingStatusEntity processingStatusEntity;
         private readonly IEmailSender _emailSender;
-        private readonly ISetting _setting;
+      
         // private readonly JwtHandler _jwtHandler;
-        public UserManagerRepo(UserManager<AppUser> userManager, IMapper mapper, IEmailSender emailSender,
-            ISetting setting)
+        public UserManagerRepo(UserManager<AppUser> userManager, IMapper mapper, IEmailSender emailSender
+           )
         {
             _userManager = userManager;
             _mapper = mapper;
             _emailSender = emailSender;
-            _setting = setting;
+        
             processingStatusEntity = new ProcessingStatusEntity();
 
 
@@ -98,11 +98,9 @@ namespace OpsPipelineAPI.Manager.Implementation
             if (user != null)
             {
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //token = HttpUtility.UrlDecode(token);
-                var resultSetting = _setting.GetSettingByName(DataConstants.DOMAIN_URL);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);                            
                 token = HttpUtility.UrlEncode(token);
-                var callbackUrl = resultSetting.Value + "resetpassword/" + token + "/" + user.Email;
+                var callbackUrl = "http://localhost:4200/" + "resetpassword/" + token + "/" + user.Email;
                 EmailModalRequest emailModal = new EmailModalRequest();
                 string msgurl = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
                 emailModal.Body = msgurl;

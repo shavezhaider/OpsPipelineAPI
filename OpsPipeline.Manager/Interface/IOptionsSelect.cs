@@ -6,6 +6,6 @@ namespace OpsPipelineAPI.Manager.Interface
 {
     public interface IOptionsSelect
     {
-        Task<List<OptionsResponse>>  GetOptionByTypeId(int type);
+       Task<List<OptionsResponse>>  GetOptionByTypeId(int type);
     }
 }

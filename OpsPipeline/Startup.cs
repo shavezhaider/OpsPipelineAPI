@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
-
+using OpsPipelineAPI.Repository.Models;
 
 namespace OpsPipelineAPI
 {
@@ -95,7 +95,7 @@ namespace OpsPipelineAPI
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             
             services.AddTransient<IUser, UserManagerRepo>();
-            services.AddTransient<ISetting, SettingManager>();
+          
             services.AddTransient<IOptionsSelect, OptionsManager>();
             services.AddTransient<IReports, ReportsManager>();
             
@@ -103,6 +103,9 @@ namespace OpsPipelineAPI
             services.AddScoped<JwtHandler>();
             services.AddDbContext<OpsPipelineDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("OpsPipelineEntities")));
+
+            services.AddDbContext<ReportContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("SalesForceEntities")));
 
             services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
@@ -117,6 +120,7 @@ namespace OpsPipelineAPI
             services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddScoped<DbContext, OpsPipelineDBContext>();
+            services.AddScoped<DbContext, ReportContext>();
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             ConfigurSwagger(services);
@@ -126,7 +130,7 @@ namespace OpsPipelineAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env , RoleManager<IdentityRole> roleManager)
         {
-            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
