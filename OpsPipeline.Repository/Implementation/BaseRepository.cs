@@ -7,6 +7,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
+using OpsPipelineAPI.Repository.ExtensionMethods;
 
 namespace OpsPipelineAPI.Repository.Implementation
 {
@@ -40,6 +44,34 @@ namespace OpsPipelineAPI.Repository.Implementation
         {
             return await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter);
         }
+
+        public IEnumerable<T> GetAllApplyFilters(Expression<Func<T, bool>> filter = null, string orderBy = null, bool asc = true, string includeProperties = null)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            //include properties will be comma seperated
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            if (orderBy != null)
+            {
+                if (asc)
+                    return DynamicOrderBy.OrderByDynamic(query, orderBy, ListSortDirection.Ascending).ToList();
+                else
+                    return DynamicOrderBy.OrderByDynamic(query, orderBy, ListSortDirection.Descending).ToList();
+            }
+            return query.ToList();
+        }
+
 
         public async Task<IEnumerable<T>> GetAll()
         {
@@ -84,7 +116,7 @@ namespace OpsPipelineAPI.Repository.Implementation
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -102,7 +134,7 @@ namespace OpsPipelineAPI.Repository.Implementation
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task RemoveRangeAsync(IEnumerable<T> entity)
@@ -114,7 +146,7 @@ namespace OpsPipelineAPI.Repository.Implementation
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -126,7 +158,7 @@ namespace OpsPipelineAPI.Repository.Implementation
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

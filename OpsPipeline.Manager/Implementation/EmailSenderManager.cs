@@ -98,7 +98,7 @@ namespace OpsPipelineAPI.Manager.Implementation
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                
                 return false;
