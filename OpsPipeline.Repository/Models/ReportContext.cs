@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using OpsPipelineAPI.Repository.EDMX;
 
+using Microsoft.Extensions.Configuration;
+
+
 #nullable disable
 
 namespace OpsPipelineAPI.Repository.Models
@@ -12,26 +15,28 @@ namespace OpsPipelineAPI.Repository.Models
         public ReportContext()
         {
         }
-
-        public ReportContext(DbContextOptions<ReportContext> options)
+        public IConfiguration Configuration { get; }
+        public ReportContext(DbContextOptions<ReportContext> options, IConfiguration configuration)
             : base(options)
         {
+            Configuration = configuration;
+          
         }
-
+      
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<MasterCity> MasterCities { get; set; }
         public virtual DbSet<MasterCountry> MasterCountries { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
+      
         public virtual DbSet<testView> testView { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=shavez;Database=Report;User ID=sa;Password=sa123;MultipleActiveResultSets=true;");
+            {  
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("SalesForceEntities"));
             }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

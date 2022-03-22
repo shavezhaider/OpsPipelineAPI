@@ -39,7 +39,7 @@ namespace OpsPipelineAPI.Controllers
                 var claims = _jwtHandler.GetClaims(user);
                 var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new UserAuthenticationResponse { IsAuthSuccessful = true, Token = token });
+                return Ok(new UserAuthenticationResponse { IsAuthSuccessful = true, Token = token,LastName =user.LastName ,FirstName =user.FirstName });
             }
             else
                 return Ok(new UserAuthenticationResponse { IsAuthSuccessful = false, Token = "", ErrorMessage = "Invalid Authentication" });

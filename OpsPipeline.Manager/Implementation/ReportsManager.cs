@@ -21,7 +21,7 @@ namespace OpsPipelineAPI.Manager.Implementation
         public Task<List<ReportsResponse>> GetReport(ReportsRequest reportsRequest)
         {
             // _dbContext.Database.("CreateStudents @p0, @p1", parameters: new[] { "Bill", "Gates" });
-           var rep=  _dbContext.Settings.ToList();
+          
           // _dbContext.Database.ExecuteSqlCommand()
             throw new NotImplementedException();
         }

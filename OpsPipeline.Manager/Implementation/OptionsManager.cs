@@ -17,22 +17,34 @@ namespace OpsPipelineAPI.Manager.Implementation
 {
     public class OptionsManager : IOptionsSelect
     {
-        //private IBaseRepository<CountryMaster> _repository;
-        ReportContext _dbContext;
-        public OptionsManager(IServiceProvider serviceProvider, ReportContext reportContext)
+        private IBaseRepository<MasterCountry> _repository;
+        private IBaseRepository<Customer> _repoCustomer;
+        private IBaseRepository<testView> _repoView;
+        private IBaseRepository<AGENTS> _repoAgent;
+        //ReportContext _dbContext;
+        OpsPipelineDBContext _dbContext;
+        public OptionsManager(IServiceProvider serviceProvider, ReportContext reportContext, OpsPipelineDBContext dBContext)
         {
-            _dbContext= reportContext;
+            _dbContext = dBContext;
             ResolveRepository(serviceProvider);
         }
 
         public async Task<List<OptionsResponse>> GetOptionByTypeId(int type)
         {
 
-            List<OptionsResponse > options = new List<OptionsResponse>();
+            List<OptionsResponse> options = new List<OptionsResponse>();
+
+            var dataAgents = _dbContext.AGENTS.ToList();
+
+            var dataAgent = _repoAgent.GetAll().Result;
+            var cust = _repoCustomer.GetAllApplyFilters(filter: x => x.Grade == 3, "CustName", false);
+
+            var data = _repository.GetAllApplyFilters(filter: x => x.CountryName == "India" && x.IsDeleted == 0);
             if (type == (int)enumOptionType.entirePipeline)
             {
-              var viewRes=  _dbContext.testView.ToList();
-                options = (from a in _dbContext.MasterCountries
+                // _repository.
+                var viewRes = _repoView.GetAll().Result;
+                options = (from a in await _repository.GetAll()
                            select new OptionsResponse
                            {
                                Id = a.CountryId,
@@ -41,27 +53,29 @@ namespace OpsPipelineAPI.Manager.Implementation
             }
             else if (type == (int)enumOptionType.dealLocation)
             {
-                
+
 
             }
             else if (type == (int)enumOptionType.SalesStage)
             {
-              
+
 
             }
             else if (type == (int)enumOptionType.topDeal)
             {
-                
+
 
             }
             return options;
 
-           
+
         }
         private void ResolveRepository(IServiceProvider serviceProvider)
         {
-            //  _repository = serviceProvider.GetService<IBaseRepository<CUSTOMER>>();
-          //  _repository = serviceProvider.GetService<IBaseRepository<CountryMaster>>();
+            _repoView = serviceProvider.GetService<IBaseRepository<testView>>();
+            _repository = serviceProvider.GetService<IBaseRepository<MasterCountry>>();
+            _repoCustomer = serviceProvider.GetService<IBaseRepository<Customer>>();
+            _repoAgent = serviceProvider.GetService<IBaseRepository<AGENTS>>();
         }
     }
 }

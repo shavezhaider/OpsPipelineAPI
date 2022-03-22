@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace OpsPipelineAPI.Repository.Models
+namespace OpsPipelineAPI.Repository.EDMX
 {
     public partial class Setting
     {

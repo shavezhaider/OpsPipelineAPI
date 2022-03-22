@@ -98,7 +98,7 @@ namespace OpsPipelineAPI
           
             services.AddTransient<IOptionsSelect, OptionsManager>();
             services.AddTransient<IReports, ReportsManager>();
-            
+            services.AddTransient<ISetting, SettingManager>();
 
             services.AddScoped<JwtHandler>();
             services.AddDbContext<OpsPipelineDBContext>(options =>
@@ -120,7 +120,7 @@ namespace OpsPipelineAPI
             services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddScoped<DbContext, OpsPipelineDBContext>();
-            services.AddScoped<DbContext, ReportContext>();
+            services.AddScoped<DbContext, ReportContext>();           
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             ConfigurSwagger(services);
